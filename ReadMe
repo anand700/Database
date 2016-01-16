@@ -1,0 +1,131 @@
+**************************************************************************************************************************************
+B+ Tree - Assignment 4
+**************************************************************************************************************************************
+
+**************************************************************************************************************************************
+Introduction
+**************************************************************************************************************************************
+A B+ tree is an n-ary tree with a variable but often large number of children per node. 
+A B+ tree consists of a root, internal nodes and leaves. The root may be either a leaf or a node with two or more children
+
+**************************************************************************************************************************************
+Data Structure
+**************************************************************************************************************************************
+
+struct BTreeHandle
+	DataType keyType
+	char *idxId
+	void *mgmtData
+
+struct BT_ScanHandle
+	BTreeHandle *tree
+	void *mgmtData
+
+#define MAKE_TREE()	((Tree *) malloc (sizeof(Tree)))
+
+#define MAKE_TREE_INFO() ((TreeInfo *) malloc (sizeof(TreeInfo)))
+
+typedef struct Tree {
+	struct Tree *parent;
+	struct Tree **ptrs;
+	struct Tree *next;
+	struct Tree *prev;
+	RID *records;
+	bool isLeafNode;
+	int *keys;
+	int Keysize;
+} Tree;
+
+typedef struct TreeInfo {
+	int numOfInserts;
+	int numberOfValuesPerNode;
+	int numOfNodes;
+	void *mgmtData;
+	void *bufferMgrPtr;
+} TreeInfo;
+
+//Track the key node and the position
+typedef struct TrackKey {
+	struct Tree *node;
+	int pos;
+} TrackKey;
+
+
+**************************************************************************************************************************************
+Method description
+**************************************************************************************************************************************
+Our implementation approach towards functionalities are as follows
+
+initIndexManager (void *mgmtData)
+- Initializes the B+ tree Index Manager.
+
+shutdownIndexManager ()
+- Shutdown the B+ tree Index Manager.
+
+createBtree (char *idxId, DataType keyType, int n)
+- Initialize B+ Tree(creating page file, initialize Buffer pool, Pin the page).
+- Update the btree info whenever a root is created.
+- Mark the page dirty and unpin the page, shutdown the buffer pool.
+
+openBtree (BTreeHandle **tree, char *idxId)
+- Setup the BufferPool.
+- Read the page from buffer and prepare the schema.
+- Unpin the page after reading.
+
+closeBtree (BTreeHandle *tree)
+- Free the memory occupied by the B+ tree and return RC_OK.
+
+deleteBtree (char *idxId)
+- Deleting the B+ tree by removing the corresponding page file and return RC_OK.
+
+getNumNodes (BTreeHandle *tree, int *result)
+- Get the total number of nodes in the B+ tree and return RC_OK.
+
+getNumEntries (BTreeHandle *tree, int *result)
+- Get the total number of keys in the B+ tree and return RC_OK.
+
+getKeyType (BTreeHandle *tree, DataType *result)
+- Get the datatype of the key and return RC_OK.
+
+findKey (BTreeHandle *tree, Value *key, RID *result)
+- Search for the given key in the B+ tree and return RC_OK.
+- On failure return RC_KEY_NOT_FOUND.
+
+insertKey (BTreeHandle *tree, Value *key, RID rid)
+- Insert the given key into the B+ tree.
+- Check for the number of nodes, if equals to zero start the new tree else find the node to insert the key.
+- Check for the number of keys in the node, if it is less than the maximum number of keys at node insert into leaf without splitting.
+- Else split the leaf and update the parent node, If parent node is full then split the node and redistribute accordingly.
+- Return RC_OK on success else return RC_KEY_NOT_FOUND on failure.
+
+deleteKey (BTreeHandle *tree, Value *key)
+- Delete the given key from the B+ tree.
+- After deleting check for underflow, if exists split the node by redistributing the node and update the paarent node.
+- Return RC_OK on success.
+
+openTreeScan (BTreeHandle *tree, BT_ScanHandle **handle)
+- Scan through all the entries in the B+ tree using the ScanHandle.
+- Return RC_OK on success.
+
+nextEntry (BT_ScanHandle *handle, RID *result)
+- Find the next entry in the B+ tree using the B+ tree.
+- Return RC_OK on success or RC_NO_MORE_ENTRIES on failure.
+
+closeTreeScan (BT_ScanHandle *handle)
+- free the memory occupied by the tree ScanHandle and return RC_OK.
+
+printTree (BTreeHandle *tree)
+- creates and displaya a string representation of a B+ tree.
+-  Return RC_OK on success.
+
+
+****************************************************************************************************************************************
+PROCEDURE TO RUN THE PROJECT
+****************************************************************************************************************************************
+
+Steps to run the makefile are as follows:
+
+MAKEFILE (Makefile):
+1) Open the Linux terminal, navigate to the directory with assignment contents using the command 'cd'
+2) Execute the make file as below: 
+		make -f Makefile
