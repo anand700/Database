@@ -1,8 +1,4 @@
 *******************************************************************
-SIMPLE STORAGE MANAGER - ASSIGNMENT 1
-*******************************************************************
-
-*******************************************************************
 INTRODUCTION
 *******************************************************************
 Storage manager is an application which handles Create, Open, Close, Destroy and all the read/write funtionalities to the files that are stored in the disk.

@@ -1,8 +1,4 @@
 *******************************************************************
-Record Manager - Assignment 3
-*******************************************************************
-
-*******************************************************************
 Introduction
 *******************************************************************
 Record Manager is an application that handles tables with a fixed schema where clients can insert records, delete records, update records, and scan through the records in a table.

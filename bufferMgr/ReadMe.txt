@@ -1,8 +1,4 @@
 *******************************************************************
-Buffer Manager - Assignment 2
-*******************************************************************
-
-*******************************************************************
 Introduction
 *******************************************************************
 Buffer Manager is an application that manages a buffer of blocks in memory including reading/flushing to disk and block replacement.
