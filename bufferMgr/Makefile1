@@ -1,0 +1,27 @@
+all: exec 
+
+exec: assignment2
+	./assignment2
+
+assignment2: test_assign2_1.o buffer_mgr.o buffer_mgr_stat.o storage_mgr.o dberror.o
+	gcc test_assign2_1.o buffer_mgr.o buffer_mgr_stat.o storage_mgr.o dberror.o -o assignment2
+
+test_assign2_1.o: test_assign2_1.c test_helper.h dberror.h storage_mgr.h buffer_mgr_stat.h buffer_mgr.h
+	gcc -c test_assign2_1.c
+
+buffer_mgr.o: buffer_mgr.c dt.h dberror.h storage_mgr.h buffer_mgr_stat.h buffer_mgr.h
+	gcc -c buffer_mgr.c
+
+buffer_mgr_stat.o: buffer_mgr_stat.c buffer_mgr.h buffer_mgr_stat.h
+	gcc -c buffer_mgr_stat.c
+
+storage_mgr.o: storage_mgr.c dberror.h storage_mgr.h
+	gcc -c storage_mgr.c
+
+dberror.o: dberror.c dberror.h
+	gcc -c dberror.c
+
+all: clean
+
+clean:
+	rm -rf *.o

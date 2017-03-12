@@ -1,0 +1,35 @@
+all: clean exec test_expr
+
+exec: assignment3
+	./assignment3
+
+assignment3: test_assign3_2.o expr.o record_mgr.o buffer_mgr.o buffer_mgr_stat.o storage_mgr.o dberror.o
+	gcc test_assign3_2.o expr.o record_mgr.o buffer_mgr.o buffer_mgr_stat.o storage_mgr.o dberror.o -o assignment3
+
+test_assign3_1.o: test_assign3_2.c test_helper.h dberror.h expr.h record_mgr.h storage_mgr.h buffer_mgr_stat.h buffer_mgr.h
+	gcc -c test_assign3_2.c
+
+buffer_mgr.o: buffer_mgr.c dt.h dberror.h storage_mgr.h buffer_mgr_stat.h buffer_mgr.h
+	gcc -c buffer_mgr.c
+
+buffer_mgr_stat.o: buffer_mgr_stat.c buffer_mgr.h buffer_mgr_stat.h
+	gcc -c buffer_mgr_stat.c
+
+storage_mgr.o: storage_mgr.c dberror.h storage_mgr.h
+	gcc -c storage_mgr.c
+
+record_mgr.o: record_mgr.c record_mgr.h dberror.h expr.h tables.h
+	gcc -c record_mgr.c
+
+expr.o: expr.c dberror.h tables.h
+	gcc -c expr.c
+
+
+test_expr: test_expr.o expr.o rm_serializer.o record_mgr.o buffer_mgr.o buffer_mgr_stat.o storage_mgr.o dberror.o
+	gcc test_expr.o expr.o rm_serializer.o record_mgr.o buffer_mgr.o buffer_mgr_stat.o storage_mgr.o dberror.o -o test_expr
+
+test_expr.o: test_expr.c tables.h dberror.h expr.h record_mgr.h
+	gcc -c test_expr.c
+
+clean:
+	rm -rf *.o
