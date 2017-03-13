@@ -2,8 +2,9 @@
 Introduction - Partial Database
 ****************************************************************************************
 Consists of the following components:
-1. Storage Manager
-2. Record Manager
+1. Storage Manager - 
+
+2. Record Manager - Record Manager is an application that handles tables with a fixed schema where clients can insert records, delete records, update records, and scan through the records in a table. We have implemented optional extension Tids and tombstone in our project.
 
 3. Buffer Manager - Buffer Manager is an application that manages a buffer of blocks in memory including reading/flushing to disk and block replacement.(flushing blocks to disk to make space for reading new blocks from disk)
 
