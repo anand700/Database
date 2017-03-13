@@ -2,7 +2,7 @@
 Introduction - Partial Database
 ****************************************************************************************
 Consists of the following components:
-1. Storage Manager - 
+1. Storage Manager - Storage manager is an application which handles Create, Open, Close, Destroy and all the read/write funtionalities to the files that are stored in the disk.
 
 2. Record Manager - Record Manager is an application that handles tables with a fixed schema where clients can insert records, delete records, update records, and scan through the records in a table. We have implemented optional extension Tids and tombstone in our project.
 
